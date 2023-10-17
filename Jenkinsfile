@@ -41,15 +41,14 @@ pipeline{
         stage('OWASP Dependency-Check Vulnerabilities') {
             when { expression { params.action == 'create' } }
             steps {
-                script {
-                    callDpcTool(
-                        toolName: 'DPC',
-                        additionalArguments: '-o ./ -s ./ -f ALL --prettyPrint',
-                        reportPattern: 'target/dependency-check-report.xml'
-                    )
-                }
+                dependencyCheck(
+                    toolName: 'DPC',
+                    additionalArguments: '-o ./ -s ./ -f ALL --prettyPrint',
+                    reportPattern: 'target/dependency-check-report.xml'
+                )
             }
         }
+
 
     }
 }
