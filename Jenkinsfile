@@ -31,5 +31,27 @@ pipeline{
                 }
             }
         }
+        stage("Maven Test"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    mavenTest()
+                }
+            }
+        }
+        // stage('OWASP Dependency-Check Vulnerabilities') {
+        //     when { expression { params.action == 'create' } }
+        //     steps {
+        //         script{
+        //             dpCheck(
+        //             'DPC', '''
+        //             -o './'
+        //             -s './'
+        //             -f 'ALL'
+        //             --prettyPrint''', 
+        //             'dependency-check-report.xml')
+        //         }
+        //     }
+        // }
     }
 }
