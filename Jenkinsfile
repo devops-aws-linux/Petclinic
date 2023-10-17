@@ -38,8 +38,8 @@ pipeline{
                 }
             }
         }
-        stages {
         stage ('OWASP Dependency-Check Vulnerabilities') {
+            when { expression { params.action == 'create' } }
             steps {
                 dependencyCheck additionalArguments: ''' 
                     -o "./" 
@@ -50,7 +50,5 @@ pipeline{
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }     
-    }
-        
     }
 }
