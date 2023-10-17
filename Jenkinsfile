@@ -38,13 +38,21 @@ pipeline{
                 }
             }
         }
-        stage ('OWASP Dependency-Check Vulnerabilities') {
+        stage('OWASP Dependency-Check Vulnerabilities') {
             when { expression { params.action == 'create' } }
             steps {
-                dependencyCheck additionalArguments: '--scan target/, odcInstallation: 'dependency-check-8'
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                script {
+                    // Use the OWASP Dependency-Check tool to scan
+                    def dependencyCheck = tool name: 'dependency-check-8', type: 'DependencyCheckTool'
+                    sh "${dependencyCheck}/bin/dependency-check.sh --scan target/"
+                }
+
+                // Publish the Dependency-Check report
+                step([
+                    $class: 'DependencyCheckPublisher',
+                    pattern: 'dependency-check-report.xml'
+                ])
             }
-        }   
-          
+        }
     }
 }
