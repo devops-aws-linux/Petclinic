@@ -44,7 +44,7 @@ pipeline{
             steps {
                 script{
                     dpCheck(
-                    'DPC', '''
+                    'dp6', '''
                     -o './'
                     -s './'
                     -f 'ALL'
