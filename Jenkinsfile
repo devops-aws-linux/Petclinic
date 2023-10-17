@@ -4,7 +4,6 @@ pipeline{
     tools {
         maven 'maven3'
         jdk 'java11'
-        dependency-check 'DPC'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '2'))
@@ -39,18 +38,19 @@ pipeline{
                 }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') {
-            when { expression { params.action == 'create' } }
+        stages {
+        stage ('OWASP Dependency-Check Vulnerabilities') {
             steps {
-                script {
-                    dependencyCheck(
-                        toolName: '${dependency-check}',  // Match the parameter names in your function
-                        additionalArguments: '-o ./ -s ./ -f ALL --prettyPrint',
-                        reportPattern: 'target/dependency-check-report.xml'
-                    )
-                }
+                dependencyCheck additionalArguments: ''' 
+                    -o "./" 
+                    -s "./"
+                    -f "ALL" 
+                    --prettyPrint''', odcInstallation: 'DPC'
+
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
-        }
+        }     
+    }
         
     }
 }
