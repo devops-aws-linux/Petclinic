@@ -45,7 +45,7 @@ pipeline{
                     -o "./" 
                     -s "./"
                     -f "ALL" 
-                    --prettyPrint''', odcInstallation: 'DPC'
+                    --prettyPrint''', odcInstallation: 'dependency-check-8'
 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
