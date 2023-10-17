@@ -43,7 +43,7 @@ pipeline{
             when { expression { params.action == 'create' } }
             steps {
                 script {
-                    dpCheck(
+                    dpc(
                         toolName: 'DPC',
                         additionalArguments: '-o ./ -s ./ -f ALL --prettyPrint',
                         reportPattern: 'target/dependency-check-report.xml'
