@@ -41,14 +41,10 @@ pipeline{
         stage ('OWASP Dependency-Check Vulnerabilities') {
             when { expression { params.action == 'create' } }
             steps {
-                dependencyCheck additionalArguments: ''' 
-                    -o "./" 
-                    -s "./"
-                    -f "ALL" 
-                    --prettyPrint''', odcInstallation: 'dependency-check-8'
-
+                dependencyCheck additionalArguments: '--scan target/, odcInstallation: 'dependency-check-8'
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
-        }     
+        }   
+          
     }
 }
