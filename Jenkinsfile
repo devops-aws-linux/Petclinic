@@ -22,5 +22,14 @@ pipeline{
                 )
             }
         }
+
+        stage("Maven Clean Compile"){
+            when { expression { params.action == 'create' } }
+            steps{
+                script{
+                    mvnCompile()
+                }
+            }
+        }
     }
 }
